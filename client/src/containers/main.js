@@ -7,7 +7,6 @@ import { Segment } from 'semantic-ui-react';
 import Groups from './groups';
 import Channels from './channels';
 import Messages from './messages';
-
 import Events from './events/events';
 import CreateEvent from './events/createEvent';
 import EventDetails from './events/eventDetails';
