@@ -1,13 +1,48 @@
 <% include head.ejs%>
 
-    <div class="page-header text-center">
+     <!-- <!-- <div class="page-header text-center">
         <h1>Profile Page</h1>
+        <a href="/profile" class="btn btn-default btn-sm">Profile</a>
         <a href="/" class="btn btn-default btn-sm">Home page</a>
         <a href="/friends" class="btn btn-default btn-sm">Friends</a>
-        <a href="/profile" class="btn btn-default btn-sm">Profile</a>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
      <script> 
         var myUser = <%- JSON.stringify(user) %>;
-    </script> 
+    </script>  --> -->
+    <!-- <!-- <script>  -->
+      var myUser = <%- JSON.stringify(user) %>
+    </script>
+     <a href="/" class="ui teal button small">Home page</a>
+    <a href="/profile" class="ui teal button small">Profile</a>
+    <a href="/friends" class="ui teal button small">Friends</a>
+    <a href="/logout" class="ui teal button small" style="float: right;
+      align: right;
+    ">Logout</a>  -->
+    <!-- <script> 
+      var myUser = <%- JSON.stringify(user) %>
+    </script>    
+
+  <div class="ui container">
+  <br>
+  <div class="ui secondary menu">
+    <div class="header item">Link</div>
+    <a href="/" class="item">
+      Home
+    </a>
+    <a href="/profile" class="active item">
+      Profile
+    </a>
+    <a href="/friends" class="item">
+      Friends
+    </a>
+    <div class="right menu">
+      <a href="/logout" class="ui item">
+        Logout
+      </a>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <br>
+</div> -->
 <% include foot.ejs%>
