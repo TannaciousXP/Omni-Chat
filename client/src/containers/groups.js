@@ -7,12 +7,15 @@ import NewGroup from './new_group';
 import JoinGroup from './join_group';
 import LeaveGroup from './leave_group';
 
-import { Segment, Icon, Menu } from 'semantic-ui-react';
+import { Segment, Icon, Menu, Input } from 'semantic-ui-react';
 
 class Groups extends Component { 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showInvite: false,
+    };
+    this.shortIdView = this.shortIdView.bind(this);
   }
 
   componentWillMount() {
@@ -23,15 +26,26 @@ class Groups extends Component {
     this.setState({activeItem: name});
   }
 
+  shortIdView() {
+    const message = 'Share this code with others to join the group! :';  
+    // alert(message + '\n' + this.props.group.shortID);
+    this.setState({
+      showInvite: !this.state.showInvite
+    });
+  }
+
+
   renderGroups() {
     return _.map(this.props.groups, group => {
+      console.log('GROUP SHORT ID BRO! ', group);
       return (
-        <Menu.Item key={group.group_id} value={group.group_id} onClick={(e) => { this.props.handleChannel; }}>
-          <span>
-            {group.groups.name}
-            <InviteLink group={group.groups} profile={this.props.profile}/>
-            <LeaveGroup group={group} handleDeleteGroup={this.props.handleDeleteGroup}/>          
-          </span>
+        <Menu.Item className='groupName' key={group.group_id} value={group.group_id} onClick={(e) => { this.props.handleChannel; }}>   
+          {group.groups.name}
+          <InviteLink group={group.groups} profile={this.props.profile} showShortId={this.shortIdView}/>
+          <LeaveGroup group={group} handleDeleteGroup={this.props.handleDeleteGroup}/>
+          {
+            this.state.showInvite ? <Input value={group.groups.shortID}/> : null
+          }
         </Menu.Item>
       );
     });
@@ -40,11 +54,17 @@ class Groups extends Component {
   render() {
     return (
       <Menu.Item>
-        <Menu.Header>Groups</Menu.Header>
+        <Menu.Header>
+          Groups
+          <Icon className='events' inverted color='teal' name='calendar'/>
+        </Menu.Header>
+          
         <Menu.Menu>
-        {this.renderGroups()}
+          {this.renderGroups()}
         </Menu.Menu>
         <NewGroup profile={this.props.profile}/>
+        <JoinGroup profile={this.props.profile}/>
+
       </Menu.Item>
     );
   }

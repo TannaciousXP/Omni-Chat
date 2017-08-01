@@ -20,11 +20,10 @@ class LeaveGroup extends Component {
 
   render() {
     return (
-      <Button circular 
-        color='teal' 
-        icon='minus'
-        floated='right'
-        size='mini' 
+      <Icon
+      inverted
+        color='teal'
+        name='minus'
         onClick={this.onHandleLeaveGroup}/>
     );
   }

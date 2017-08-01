@@ -32,3 +32,16 @@
 .display {
   color: grey;
 }
+
+.groupName {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.buttonGroup {
+  font-size: 5px;
+}
+
+.event {
+  float: right;
+}
