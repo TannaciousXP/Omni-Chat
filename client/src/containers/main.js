@@ -20,7 +20,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showChannel: false,
+      groupId: 1,
       showMessages: false,
       showEvents: false,
       showGroups: true,
@@ -43,39 +43,10 @@ class Main extends Component {
   }
 
   onHandleChannel (e) {
-    if (this.state.showChannel === false && this.state.groupId === undefined) {
-      this.props.fetchChannels(e.target.value);
-      this.setState({
-        showChannel: !this.state.showChannel,
-        groupId: e.target.value
-      });
-    } else if (this.state.showChannel && this.state.groupId === e.target.value) {
-      if (this.state.showMessages) {
-        this.setState({
-          showChannel: !this.state.showChannel,
-          groupId: undefined,
-          showMessages: !this.state.showMessages,
-          channelId: undefined
-        });
-      } else {
-        this.setState({
-          showChannel: !this.state.showChannel,
-          groupId: undefined
-        });       
-      }
-    } else if (this.state.showChannel && this.state.groupId !== e.target.value && this.state.showMessages) {
-      this.props.fetchChannels(e.target.value);
-      this.setState({
-        groupId: e.target.value,
-        showMessages: !this.state.showMessages,
-        channelId: undefined
-      });
-    } else if (this.state.showChannel && this.state.groupId !== e.target.value) {
-      this.props.fetchChannels(e.target.value);
-      this.setState({
-        groupId: e.target.value
-      });
-    }
+    console.log('E TARGET VALUE: ', e.value);
+    this.setState({
+      groupId: e.value,
+    });
   }
 
   onHandleMessage(e) {
@@ -164,7 +135,8 @@ class Main extends Component {
               {' '} {window.myUser.display}
             </Header>
           </Menu.Item>          
-          <Groups profile={window.myUser} handleChannel={this.onHandleChannel}></Groups>          
+          <Groups profile={window.myUser} handleChannel={this.onHandleChannel}></Groups> 
+          <Channels socket={socket} groupId={this.state.groupId} handleMessage={this.onHandleMessage}/>         
         </Menu>
       </div>
     );

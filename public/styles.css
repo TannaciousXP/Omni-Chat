@@ -85,6 +85,9 @@
   float: right;
 }
 
+.sharelink{
+  color: #008080;
+}
 .signIn {
   font-family: Helvetica;
 }
