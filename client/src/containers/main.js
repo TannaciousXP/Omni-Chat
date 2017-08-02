@@ -148,7 +148,6 @@ class Main extends Component {
             this.state.showMain ? <Messages socket={socket} channelId={this.state.channelId}/> : null
           }
         </div>
-
       </div>
     );
   }  
