@@ -8,7 +8,7 @@ import JoinGroup from './join_group';
 import LeaveGroup from './leave_group';
 import GroupList from './group_list';
 
-import { Icon, Menu, Input } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 
 class Groups extends Component { 
   constructor(props) {
@@ -16,8 +16,12 @@ class Groups extends Component {
     this.state = {
       showInvite: false,
     };
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
+  handleItemClick(e, { name }) {
 
+    this.setState({activeItem: name});
+  }
   componentWillMount() {
     this.props.fetchGroups(this.props.profile);    
   }
@@ -26,7 +30,12 @@ class Groups extends Component {
   renderGroups() {
     return _.map(this.props.groups, group => {
       return (
-        <GroupList group={group} key={group.id} handleChannel={this.props.handleChannel}/>
+        <GroupList group={group} 
+                   key={group.id} 
+                   handleChannel={this.props.handleChannel}
+                   handleItemClick={this.handleItemClick}
+                   activeItem={this.state.activeItem}
+                  />
       );
     });
   }
@@ -41,10 +50,11 @@ class Groups extends Component {
         </Menu.Header>
           
         <Menu.Menu>
-          {this.renderGroups()}
-        </Menu.Menu>
+        {this.renderGroups()}
         <NewGroup profile={this.props.profile}/>
+        <br/>
         <JoinGroup profile={this.props.profile}/>
+        </Menu.Menu>
 
       </Menu.Item>
     );
