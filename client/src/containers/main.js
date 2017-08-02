@@ -139,6 +139,7 @@ class Main extends Component {
           <Groups profile={window.myUser} handleChannel={this.onHandleChannel}></Groups> 
           <Channels socket={socket} groupId={this.state.groupId} handleMessage={this.onHandleMessage}/>         
         </Menu>
+
       </div>
     );
   }  
