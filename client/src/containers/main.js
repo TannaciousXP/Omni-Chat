@@ -44,6 +44,7 @@ class Main extends Component {
 
   onHandleChannel (e) {
     console.log('E TARGET VALUE: ', e.value);
+    this.props.fetchChannels(e.value);
     this.setState({
       groupId: e.value,
     });

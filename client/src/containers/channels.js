@@ -12,18 +12,18 @@ export class Channels extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    this.props.fetchOneGroup(this.props.groupId);
-  }
+  // componentWillMount() {
+  //   this.props.fetchOneGroup(this.props.groupId);
+  // }
 
   renderChannels() {
     return _.map(this.props.channels, channel => {
       console.log('YO CHANNEL!: ', channel);
       this.props.socket.emit('subscribe', channel.id);
       return (
-        <Menu.item key={channel.id} onClick={this.props.handleMessage}>
+        <Menu.Item key={channel.id} onClick={this.props.handleMessage}>
           {channel.name}
-        </Menu.item>
+        </Menu.Item>
       );
     });
   }
