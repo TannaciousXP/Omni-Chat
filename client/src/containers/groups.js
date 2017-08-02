@@ -36,7 +36,8 @@ class Groups extends Component {
       <Menu.Item>
         <Menu.Header>
           Groups
-          <Icon className='events' inverted color='teal' name='calendar'/>
+          <Icon className='events' inverted color='teal' name='calendar'
+            onClick={this.props.handleEvents} />
         </Menu.Header>
           
         <Menu.Menu>

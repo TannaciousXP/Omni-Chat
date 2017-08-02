@@ -20,14 +20,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupId: 1,
-      showMessages: false,
-      showEvents: false,
-      showGroups: true,
-      showGroupEvents: false,
-      showCreateEvents: false,
-      showEventDetails: false,
-      eventId: null
+      showMain: true,
     };
     this.onHandleChannel = this.onHandleChannel.bind(this);
     this.onHandleMessage = this.onHandleMessage.bind(this);
@@ -72,10 +65,7 @@ class Main extends Component {
 
   onHandleEvents() {
     this.setState({
-      showChannel: false,
-      showMessages: false,
-      showEvents: true,
-      showGroups: false,
+      showMain: !this.state.showMain
     });
   }
 
@@ -135,11 +125,25 @@ class Main extends Component {
               <Image shape='circular' src={window.myUser.profilePic}/>
               {' '} {window.myUser.display}
             </Header>
-          </Menu.Item>          
-          <Groups profile={window.myUser} handleChannel={this.onHandleChannel}></Groups> 
-          <Channels socket={socket} groupId={this.state.groupId} handleMessage={this.onHandleMessage}/>         
+          </Menu.Item> 
+          {
+            this.state.showMain ? <Groups profile={window.myUser} handleChannel={this.onHandleChannel}
+              handleEvents={this.onHandleEvents}/> :
+              <Events showGroups={this.onHandleGroups} groupEvents={this.handleGroupEvents}
+                handleEvents={this.onHandleEvents}/>
+              
+          }
+          {
+            this.state.showMain ? <Channels socket={socket} groupId={this.state.groupId} handleMessage={this.onHandleMessage}/> :
+              <GroupEvents groupId={this.state.groupId} handleEventDetails={this.handleEventDetails}/>
+          }
+          
         </Menu>
-
+        <div id='main'>
+          {
+            this.state.showMain ? <Messages socket={socket} channelId={this.state.channelId}/> : null
+          }
+        </div>
       </div>
     );
   }  
