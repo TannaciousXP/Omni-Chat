@@ -42,7 +42,7 @@ class Groups extends Component {
 
   render() {
     return (
-      <Menu.Item>
+      <Menu.Item style={{paddingBottom: 40 + 'px'}}>
         <Menu.Header>
           Groups
           <Icon className='events' inverted color='teal' name='calendar'
@@ -51,10 +51,10 @@ class Groups extends Component {
           
         <Menu.Menu>
         {this.renderGroups()}
-        <NewGroup profile={this.props.profile}/>
-        <br/>
-        <JoinGroup profile={this.props.profile}/>
         </Menu.Menu>
+        <NewGroup profile={this.props.profile}/>
+
+        <JoinGroup profile={this.props.profile}/>
 
       </Menu.Item>
     );

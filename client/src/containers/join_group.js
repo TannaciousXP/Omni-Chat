@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { joinGroup } from '../actions';
 
-import { Form, Icon, Menu } from 'semantic-ui-react';
+import { Form, Icon, Menu, Button } from 'semantic-ui-react';
 
 class JoinGroup extends Component {
   renderField(field) {
@@ -11,9 +11,9 @@ class JoinGroup extends Component {
     const { meta: { touched, error, warning }} = field; 
     return (
       <Form.Input 
-                  className='input' 
+                  className='inputForm' 
                   transparent={true} 
-                  size='small'
+                  size='large'
                   placeholder='enter group code'
                   type='text' {...field.input}/>
     );

@@ -13,9 +13,9 @@ class NewGroup extends Component {
     const { meta: { touched, error, warning }} = field; 
     return (
       <Form.Input 
-                  className='input' 
+                  className='inputForm' 
                   transparent={true} 
-                  size='small'
+                  size='large'
                   placeholder='enter new group name'
                   type='text' {...field.input}/>
     );

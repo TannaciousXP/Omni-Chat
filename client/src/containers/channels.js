@@ -57,8 +57,8 @@ export class Channels extends Component {
         </Menu.Header>
         <Menu.Menu>
           {this.renderChannels()}
-          <NewChannel groupId={this.props.groupId}/>
         </Menu.Menu>
+        <NewChannel groupId={this.props.groupId}/>
       </Menu.Item>
     );
   }
