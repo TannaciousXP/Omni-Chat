@@ -3,6 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { joinGroup } from '../actions';
 
+import { Icon, Button } from 'semantic-ui-react';
+
 class JoinGroup extends Component {
   renderField(field) {
     const { meta: { touched, error } } = field; 
