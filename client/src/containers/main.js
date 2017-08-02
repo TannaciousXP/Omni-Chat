@@ -139,11 +139,15 @@ class Main extends Component {
           }
           
         </Menu>
+<<<<<<< HEAD
         <div id='main'>
           {
             this.state.showMain ? <Messages socket={socket} channelId={this.state.channelId}/> : null
           }
         </div>
+=======
+
+>>>>>>> fix main
       </div>
     );
   }  
