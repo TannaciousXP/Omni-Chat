@@ -37,7 +37,7 @@ class GroupList extends Component {
           key={this.props.group.group_id}
           name={this.props.group.groups.name}
           value={this.props.group.group_id} 
-          onClick={(e, d) => { 
+          onClick={() => { 
             this.props.handleItemClick(this.props.group.groups.name), 
             this.props.handleChannel(this.props.group.group_id); 
           }}
