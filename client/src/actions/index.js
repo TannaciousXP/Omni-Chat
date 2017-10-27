@@ -15,6 +15,7 @@ export const CREATE_CHANNEL = 'create_channel';
 
 export const FETCH_MESSAGES = 'fetch_messages';
 export const CREATE_MESSAGE = 'create_message';
+export const EMPTY_CHANNELS = 'empty_channels';
 
 export const FETCH_FRIENDS = 'fetch_friends';
 
@@ -65,7 +66,6 @@ export const fetchGroups = function(user) {
 };
 
 export const fetchOneGroup = function(group_id) {
-  console.log('im in fetchOneGroup ', group_id);
   const request = axios.get(`/groups/fetchOneGroup/${group_id}`);
   return {
     type: FETCH_ONE_GROUP,
@@ -74,7 +74,6 @@ export const fetchOneGroup = function(group_id) {
 };
 
 export let createGroup = function(group, profile_id, shortID) {
-  console.log(group, profile_id, shortID);
   const request = axios.post(`/groups/createGroup/${group}?id=${profile_id}&shortID=${shortID}`);
   return {
     type: CREATE_GROUP,
@@ -105,6 +104,14 @@ export let fetchChannels = function(groupId) {
   return {
     type: FETCH_CHANNELS,
     payload: request
+  };
+};
+
+export let emptyChannels = function () {
+  console.log('INSIDE ACTION INDEX');
+  return {
+    type: EMPTY_CHANNELS,
+    payload: {}
   };
 };
 
@@ -165,7 +172,6 @@ export let fetchFriendRequests = function(profileId) {
 
 /* -----------------------EVENTS------------------------------------- */
 export let createEvent = function(reqBody, groupId) {
-  console.log('create event with these ', reqBody, groupId);
   let createEvent = axios.post(`/events/${groupId}`, reqBody);
   return {
     type: CREATE_EVENT,

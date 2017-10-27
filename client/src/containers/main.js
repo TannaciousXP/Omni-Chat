@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchProfile, fetchChannels, fetchMessages, fetchEvents } from '../actions';
+import { fetchProfile, fetchChannels, 
+  fetchMessages, fetchEvents, emptyChannels, fetchGroups } from '../actions';
 
 import { Segment, Menu, Header, Image } from 'semantic-ui-react';
 
 import Groups from './groups';
 import Channels from './channels';
 import Messages from './messages';
-
 import Events from './events/events';
 import CreateEvent from './events/createEvent';
 import EventDetails from './events/eventDetails';
@@ -23,12 +23,17 @@ class Main extends Component {
 
     this.state = {
       showMain: true,
+      groupId: null,
+      channelId: null,
+      channelName: null,
+      showCreateEvents: false,
+      showEventDetails: false
+
     };
 
     this.onHandleChannel = this.onHandleChannel.bind(this);
     this.onHandleMessage = this.onHandleMessage.bind(this);
     this.onHandleEvents = this.onHandleEvents.bind(this);
-    this.onHandleGroups = this.onHandleGroups.bind(this);
     this.handleDeleteGroup = this.handleDeleteGroup.bind(this);    
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.onDisplayEvents = this.onDisplayEvents.bind(this);
@@ -38,18 +43,33 @@ class Main extends Component {
   //Once sign on, your information is fetched
   //as we go around the site, this information will be passed to load contents specific for each user
   componentWillMount() {
-    this.props.fetchProfile(window.myUser);    
+    console.log('im mounting');
+    this.props.fetchProfile(window.myUser);
+    this.props.fetchGroups(window.myUser)
+      .then((groups) => {
+        this.props.fetchChannels(groups.payload.data[0].group_id)
+          .then((channels) => {
+            this.props.fetchMessages(channels.payload.data[0].id);
+            this.setState({
+              groupId: groups.payload.data[0].group_id,
+              channelId: channels.payload.data[0].id,
+              channelName: channels.payload.data[0].name
+            });
+          });
+      });
   }
 
-  onHandleChannel (e) {
-    var firstChannel;
-    this.props.fetchChannels(e.value);
+  onHandleChannel (groupId) {
+    console.log('handle channel ', groupId);
+    this.props.fetchChannels(groupId);
     this.setState({
-      groupId: e.value,
+      groupId: groupId,
     });
+    console.log(this.props);
   }
 
   onHandleMessage(e, d) {
+    console.log(d.value);
     this.props.fetchMessages(d.value);
     this.setState({
       channelId: d.value,
@@ -62,21 +82,12 @@ class Main extends Component {
     });
   }
 
-  onHandleGroups() {
-    this.setState({
-      showEvents: false,
-      showGroups: true,
-      showGroupEvents: false,
-      showCreateEvents: false,
-      showEventDetails: false,
-    });
-  }
-
   handleDeleteGroup() {
     this.setState({
       groupId: undefined,
       channelId: undefined
     });
+    this.props.emptyChannels();
   }
 
   handleCreateEvent(e) {
@@ -88,12 +99,6 @@ class Main extends Component {
 
   }
 
-  onHandleEvents() {
-    this.setState({ 
-      showMain: !this.state.showMain
-    });
-  }
-
   onDisplayEvents(groupId) {
     this.props.fetchEvents(groupId);
     this.setState({
@@ -101,31 +106,13 @@ class Main extends Component {
     });
   }
 
-  handleEventDetails(eventId) {
-    console.log('show event', this.state.showEventDetails);
-    console.log('event id', eventId);
-    
+  handleEventDetails(eventId) {    
     this.setState({
       showEventDetails: !this.state.showEventDetails,
       eventId: eventId
     });
 
-  }
-
-  handleCreateEvent() {
-    // need edge cases
-    
-
-
-  }
-
-  handleEventDetails() {
-    // need edgecases
-  }
-
   renderEventDetails() {
-    console.log('renderEventDetails', this.state.eventId);
-
     if (this.state.eventId) {
       return ( 
         <EventDetails 
@@ -135,9 +122,9 @@ class Main extends Component {
       );
     } else {
       return (
-        <div>
-          Please select an event
-        </div>
+        <Segment inverted>
+          <Header inverted color='teal' size='large'> Please Select An Event </Header>
+        </Segment>
       );
     }
   }
@@ -158,20 +145,24 @@ class Main extends Component {
               <Groups 
                 profile={window.myUser} 
                 handleChannel={this.onHandleChannel}
-                handleEvents={this.onHandleEvents}/> 
+                handleEvents={this.onHandleEvents}
+                handleDeleteGroup={this.handleDeleteGroup}
+              /> 
               :
               <Events 
-                showGroups={this.onHandleGroups} 
                 handleEventsDisplay={this.onDisplayEvents}
                 handleEvents={this.onHandleEvents}
               />
           }
           {
             this.state.showMain ? 
-              <Channels 
+              <Channels
+                key={this.state.groupId}
                 socket={socket} 
+                profile={window.myUser}
                 groupId={this.state.groupId} 
                 handleMessage={this.onHandleMessage}
+                channelName={this.state.channelName}
               /> 
               :
               <GroupEvents 
@@ -181,15 +172,20 @@ class Main extends Component {
           }
           
         </Menu>
+        <div id='sidebar-spacer'></div>
         <div id='main'>
           {
             this.state.showMain ? 
               <Messages 
                 socket={socket} 
                 channelId={this.state.channelId}
+                profile={window.myUser}
               /> 
               : 
-              this.renderEventDetails()
+              <div>
+                <div id='chat-bg-color'></div>
+                {this.renderEventDetails()}
+              </div>
           }
         </div>
       </div>
@@ -197,4 +193,4 @@ class Main extends Component {
   }  
 }
 
-export default connect(null, { fetchProfile, fetchEvents, fetchChannels, fetchMessages} )(Main);
+export default connect(null, { fetchProfile, fetchEvents, fetchChannels, fetchMessages, emptyChannels, fetchGroups } )(Main);

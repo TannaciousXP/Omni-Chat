@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { createMessage } from '../actions';
+import { createMessage, fetchGroups, fetchChannels } from '../actions';
 import axios from 'axios';
 import { Segment, Form } from 'semantic-ui-react';
 
@@ -26,6 +26,7 @@ export class MessageInput extends Component {
   }
 
   onSubmit(data) {
+    console.log(data);
     if (data.message !== '' ) {
       var message = {
         text: data.message,
@@ -39,16 +40,17 @@ export class MessageInput extends Component {
       message['create_at'] = moment().toISOString();
       this.props.socket.emit('send', message);
     }
+
   }
 
   render() {
     const { handleSubmit } = this.props;
-
-    return (
-      <Segment fluid inverted color='grey'>
+    var disableField = !this.props.channelId;
+    return disableField ? null : (
+      <Segment inverted>
         <Form className='chat-text-entry' onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field 
-            placeholder='Enter your message here'
+            placeholder="Enter your message here"
             name='message'
             component={this.renderField}
           />
@@ -68,6 +70,6 @@ const mapStateToProps = (state) => {
 export default reduxForm({
   form: 'MessageForm'
 })(
-  connect(mapStateToProps, { createMessage })(MessageInput)
+  connect(mapStateToProps, { createMessage,fetchGroups, fetchChannels })(MessageInput)
 );
 

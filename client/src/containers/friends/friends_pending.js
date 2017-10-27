@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { fetchFriendRequests, fetchPendingRequests, fetchFriends } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Segment, Image } from 'semantic-ui-react';
+import { Button, Segment, Image, Header } from 'semantic-ui-react';
 
 import _ from 'lodash';
 import axios from 'axios';
@@ -64,6 +64,7 @@ export class PendingList extends Component {
 
               <Button 
                 className='friend-list-button' 
+                color='teal'
                 onClick={ () => { this.onAcceptRequest(request.profile_id); } }
               >Accept</Button> 
 
@@ -96,7 +97,7 @@ export class PendingList extends Component {
               <Button 
                 className='friend-list-button' 
                 onClick={() => { this.onCancelRequest(request.friend_id); }}
-              >Cancel request</Button>
+              >Cancel Request</Button>
 
               <strong>Name:</strong> {request.friend.display} <br />
               <strong>Email:</strong> {request.friend.email} <br />
@@ -110,11 +111,17 @@ export class PendingList extends Component {
   render() {
     return (
       <div>
-        <h3>Pending Requests</h3>
+        <div id='chat-bg-color'></div>
+        <Segment inverted>
+          <Header inverted color='teal' size='large'> Pending Requests </Header>
+        </Segment>
         <Segment.Group>
           {this.renderPendingRequests()}
         </Segment.Group>
-        <h3>Friend Requests</h3>
+        <div id='chat-bg-color'></div>
+        <Segment inverted>
+          <Header inverted color='teal' size='large'> Friend Requests </Header>
+        </Segment>
         <Segment.Group>
           {this.renderFriendRequests()}
         </Segment.Group>
