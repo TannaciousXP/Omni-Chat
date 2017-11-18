@@ -75,14 +75,6 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-  // return Promise.all([
-  //   knex.schema.dropTable('auths'),
-  //   knex.schema.dropTable('profiles'),
-  //   knex.schema.dropTable('groups'),
-  //   knex.schema.dropTable('profiles_groups'),
-  //   knex.schema.dropTable('channels'),
-  //   knex.schema.dropTable('messages')
-  // ]);
   return Promise.all([
     knex.raw('DROP TABLE if exists auths CASCADE'),
     knex.raw('DROP TABLE if exists profiles CASCADE'),
@@ -95,6 +87,5 @@ exports.down = function (knex, Promise) {
     knex.raw('DROP TABLE if exists events CASCADE'),
     knex.raw('DROP TABLE if exists attendees CASCADE')
   ]);
-
 };
 
